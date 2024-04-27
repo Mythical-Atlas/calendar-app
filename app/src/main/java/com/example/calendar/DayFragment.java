@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,11 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 
         view.findViewById(R.id.dayBackButton).setOnClickListener(v -> previousDayAction(view));
         view.findViewById(R.id.dayForwardButton).setOnClickListener(v -> nextDayAction(view));
+        view.findViewById(R.id.dayNewEventButton).setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getContext(), NewEventActivity.class);
+            this.startActivity(intent);
+        });
 
         initWidgets(view);
         setDayView();

@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context=".MonthFragment">
 
+    <Button
+        android:id="@+id/monthNewEventButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New Event" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

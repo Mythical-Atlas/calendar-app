@@ -6,11 +6,14 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class EventManager {
-    private HashMap<LocalDate, ArrayList<EventObject>> eventList;
+    private static HashMap<LocalDate, ArrayList<EventObject>> eventList;
 
     public EventManager()
     {
-        eventList = new HashMap<LocalDate, ArrayList<EventObject>>();
+        if(eventList == null)
+        {
+            eventList = new HashMap<LocalDate, ArrayList<EventObject>>();
+        }
     }
     public EventManager(HashMap<LocalDate, ArrayList<EventObject>> eventList)
     {
@@ -72,6 +75,21 @@ public class EventManager {
         }
 
         return null;
+    }
+
+    public boolean checkDuplicate(LocalDate date, String name)
+    {
+        if(!eventList.containsKey(date)) {return false;}
+
+        ArrayList<EventObject> eventsOnDate = eventList.get(date);
+        if(eventsOnDate == null) {return false;}
+
+        for(EventObject event : eventsOnDate)
+        {
+            if(event.getName().equals(name)) {return true;}
+        }
+
+        return false;
     }
 
     public void removeEvent(LocalDate date, String name)

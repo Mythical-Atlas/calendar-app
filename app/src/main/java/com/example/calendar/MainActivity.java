@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        replaceFragment(new MonthFragment());
-
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
         navView.setSelectedItemId(R.id.botNavMonthView);
 
@@ -57,11 +55,24 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        refreshFragment();
+    }
+
     public void replaceFragment(Fragment fragment)
     {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void refreshFragment()
+    {
+        BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
+        navView.setSelectedItemId(navView.getSelectedItemId());
     }
 }
