@@ -1,8 +1,9 @@
 package com.example.calendar;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class EventObject {
+public class EventObject implements Serializable {
     private LocalDate date;
     private String name;
 
