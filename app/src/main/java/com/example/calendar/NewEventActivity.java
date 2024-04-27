@@ -2,12 +2,14 @@ package com.example.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,6 +41,11 @@ public class NewEventActivity extends AppCompatActivity
             this.startActivity(intent);
         });
         findViewById(R.id.createEventButton).setOnClickListener(l -> tryCreateEvent());
+
+        calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) ->
+        {
+            view.setDate(LocalDate.of(year, month + 1, dayOfMonth).atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        });
     }
 
     private void tryCreateEvent()
@@ -62,7 +69,6 @@ public class NewEventActivity extends AppCompatActivity
         MainActivity.eventManager.addEvent(eventDate, eventName);
 
         Intent intent = new Intent(this, MainActivity.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_);
         this.startActivity(intent);
     }
 }
