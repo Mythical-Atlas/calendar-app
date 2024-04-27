@@ -60,6 +60,17 @@ public class MainActivity extends AppCompatActivity
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
         navView.setSelectedItemId(R.id.botNavMonthView);
 
+        findViewById(R.id.newEventButton).setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getApplicationContext(), NewEventActivity.class);
+            this.startActivity(intent);
+        });
+        findViewById(R.id.settingsButton).setOnClickListener(v ->
+        {
+            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            this.startActivity(intent);
+        });
+
         navView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.botNavDayView) {replaceFragment(new DayFragment());}
             if(item.getItemId() == R.id.botNavMonthView) {replaceFragment(new MonthFragment());}
@@ -112,6 +123,12 @@ public class MainActivity extends AppCompatActivity
 
     public static void storeEventList(Context context)
     {
+        eventManager.storeEvents(context, "calendar_event_list");
+    }
+
+    public static void deleteAllEvents(Context context)
+    {
+        eventManager.deleteAllEvents();
         eventManager.storeEvents(context, "calendar_event_list");
     }
 }

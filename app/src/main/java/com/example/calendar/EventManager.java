@@ -3,7 +3,6 @@ package com.example.calendar;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -17,6 +16,7 @@ import java.util.Objects;
 
 public class EventManager {
     private static HashMap<LocalDate, ArrayList<EventObject>> eventList;
+    private static ArrayList<EventObject> repeatingEventList;
 
     public EventManager()
     {
@@ -24,10 +24,18 @@ public class EventManager {
         {
             eventList = new HashMap<LocalDate, ArrayList<EventObject>>();
         }
+
+        if(repeatingEventList == null)
+        {
+            repeatingEventList = new ArrayList<EventObject>();
+            refreshRepeatingEvents();
+        }
     }
-    public EventManager(HashMap<LocalDate, ArrayList<EventObject>> eventList)
+
+    public void deleteAllEvents()
     {
-        this.eventList = eventList;
+        eventList.clear();
+        refreshRepeatingEvents();
     }
 
     public void loadEvents(Context context, String path){
@@ -52,8 +60,10 @@ public class EventManager {
         catch (IOException e)
         {
             Log.e("EventManager.loadEvents", "Error initializing stream.");
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
         }
+
+        refreshRepeatingEvents();
     }
     public void storeEvents(Context context, String path){
         try
@@ -76,20 +86,72 @@ public class EventManager {
         }
     }
 
-    public HashMap<LocalDate, ArrayList<EventObject>> getEventList() {return eventList;}
-    public void setEventList(HashMap<LocalDate, ArrayList<EventObject>> eventList) {this.eventList = eventList;}
+    private void refreshRepeatingEvents()
+    {
+        repeatingEventList.clear();
+
+        for(ArrayList<EventObject> _eventlist : eventList.values())
+        {
+            for(EventObject event : _eventlist)
+            {
+                if (event.getRepeatType() != EventObject.RepeatType.NONE)
+                {
+                    repeatingEventList.add(event);
+                }
+            }
+        }
+    }
 
     public ArrayList<EventObject> getEvents(LocalDate date)
     {
+        ArrayList<EventObject> applicableEvents = getRepeatingEventsOnDate(date);
+
         if(eventList.containsKey(date))
         {
-            return eventList.get(date);
+            if(eventList.get(date) != null)
+            {
+                applicableEvents.addAll(Objects.requireNonNull(eventList.get(date)));
+            }
         }
 
-        return null;
+        return applicableEvents;
     }
 
-    public void addEvent(LocalDate date, String name)
+    private ArrayList<EventObject> getRepeatingEventsOnDate(LocalDate date)
+    {
+        ArrayList<EventObject> applicableEvents = new ArrayList<EventObject>();
+
+        for(EventObject event : repeatingEventList)
+        {
+            if(doesEventRepeatOnDate(event, date)) {applicableEvents.add(event);}
+        }
+
+        return applicableEvents;
+    }
+
+    private boolean doesEventRepeatOnDate(EventObject event, LocalDate date)
+    {
+        switch(event.getRepeatType())
+        {
+            case NONE:
+                return false;
+            case DAILY:
+                return date.isAfter(event.getDate());
+            case WEEKLY:
+                if(!date.isAfter(event.getDate())) {return false;}
+                return event.getDate().getDayOfWeek() == date.getDayOfWeek();
+            case MONTHLY:
+                if(!date.isAfter(event.getDate())) {return false;}
+                return event.getDate().getDayOfMonth() == date.getDayOfMonth();
+            case YEARLY:
+                if(!date.isAfter(event.getDate())) {return false;}
+                return event.getDate().getDayOfYear() == date.getDayOfYear();
+            default:
+                return false;
+        }
+    }
+
+    public void addEvent(LocalDate date, String name, EventObject.RepeatType repeatType)
     {
         if(eventList.containsKey(date))
         {
@@ -106,13 +168,25 @@ public class EventManager {
                 if(event.getName().equals(name)) {return;}
             }
 
-            eventsOnDate.add(new EventObject(date, name));
+            EventObject _event = new EventObject(date, name, repeatType);
+            eventsOnDate.add(_event);
+
+            if (_event.getRepeatType() != EventObject.RepeatType.NONE)
+            {
+                repeatingEventList.add(_event);
+            }
         }
         else
         {
             ArrayList<EventObject> eventsOnDate = new ArrayList<EventObject>();
-            eventsOnDate.add(new EventObject(date, name));
+            EventObject _event = new EventObject(date, name, repeatType);
+            eventsOnDate.add(_event);
             eventList.put(date, eventsOnDate);
+
+            if (_event.getRepeatType() != EventObject.RepeatType.NONE)
+            {
+                repeatingEventList.add(_event);
+            }
         }
     }
 
@@ -162,15 +236,6 @@ public class EventManager {
 
     public int getEventCount(LocalDate date)
     {
-        if(eventList.containsKey(date))
-        {
-            ArrayList<EventObject> eventsOnDate = eventList.get(date);
-
-            if(eventsOnDate == null) {return 0;}
-
-            return eventsOnDate.size();
-        }
-
-        return 0;
+        return getEvents(date).size();
     }
 }

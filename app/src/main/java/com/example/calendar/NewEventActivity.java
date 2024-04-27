@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class NewEventActivity extends AppCompatActivity
     {
         String eventName = ((TextView)findViewById(R.id.eventNameEditText)).getText().toString();
         LocalDate eventDate = Instant.ofEpochMilli(calendarView.getDate()).atZone(ZoneId.systemDefault()).toLocalDate();
+        int repeatIndex = ((Spinner)findViewById(R.id.repeat_type_spinner)).getSelectedItemPosition();
 
         if(eventName.equals(""))
         {
@@ -66,7 +68,7 @@ public class NewEventActivity extends AppCompatActivity
             return;
         }
 
-        MainActivity.eventManager.addEvent(eventDate, eventName);
+        MainActivity.eventManager.addEvent(eventDate, eventName, EventObject.RepeatType.values()[repeatIndex]);
         MainActivity.storeEventList(getApplicationContext());
 
         Intent intent = new Intent(this, MainActivity.class);

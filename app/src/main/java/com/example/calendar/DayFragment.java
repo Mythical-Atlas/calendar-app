@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -22,14 +20,14 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     private TextView dayMonthYearText;
     private RecyclerView eventsRecyclerView;
 
-    public DayFragment() {}
+    /*public DayFragment() {}
 
     public static DayFragment newInstance() {
         DayFragment fragment = new DayFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,11 +46,6 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 
         view.findViewById(R.id.dayBackButton).setOnClickListener(v -> previousDayAction(view));
         view.findViewById(R.id.dayForwardButton).setOnClickListener(v -> nextDayAction(view));
-        view.findViewById(R.id.dayNewEventButton).setOnClickListener(v ->
-        {
-            Intent intent = new Intent(getContext(), NewEventActivity.class);
-            this.startActivity(intent);
-        });
 
         initWidgets(view);
         setDayView();

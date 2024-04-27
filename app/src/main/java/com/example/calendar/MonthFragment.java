@@ -51,11 +51,6 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
 
         view.findViewById(R.id.monthBackButton).setOnClickListener(v -> previousMonthAction(view));
         view.findViewById(R.id.monthForwardButton).setOnClickListener(v -> nextMonthAction(view));
-        view.findViewById(R.id.monthNewEventButton).setOnClickListener(v ->
-        {
-            Intent intent = new Intent(getContext(), NewEventActivity.class);
-            this.startActivity(intent);
-        });
 
         initWidgets(view);
         setMonthView();
