@@ -2,14 +2,19 @@ package com.example.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,15 +24,6 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 {
     private TextView dayMonthYearText;
     private RecyclerView eventsRecyclerView;
-
-    /*public DayFragment() {}
-
-    public static DayFragment newInstance() {
-        DayFragment fragment = new DayFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +36,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -104,6 +100,12 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     @Override
     public void onItemClick(int position, String dayText)
     {
+        if(!dayText.equals(""))
+        {
+            Intent intent = new Intent(getContext(), ModifyEventActivity.class);
+            intent.putExtra("event_to_modify", MainActivity.eventManager.getEvent(MainActivity.selectedDate, dayText));
+            this.startActivity(intent);
+        }
         /*if(!dayText.equals(""))
         {
             String message = "Selected Event: " + dayText + " " + monthYearFromDate(selectedDate);

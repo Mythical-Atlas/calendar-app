@@ -192,27 +192,41 @@ public class EventManager {
 
     public EventObject getEvent(LocalDate date, String name)
     {
+        ArrayList<EventObject> eventsOnDate = new ArrayList<>();
+
         if(eventList.containsKey(date))
         {
-            ArrayList<EventObject> eventsOnDate = eventList.get(date);
-
-            if(eventsOnDate == null) {return null;}
-
-            for(EventObject event : eventsOnDate)
+            ArrayList<EventObject> _eventsOnDate = eventList.get(date);
+            if(_eventsOnDate != null)
             {
-                if(event.getName().equals(name)) {return event;}
+                eventsOnDate.addAll(_eventsOnDate);
             }
+        }
+
+        eventsOnDate.addAll(getRepeatingEventsOnDate(date));
+
+        for(EventObject event : eventsOnDate)
+        {
+            if(event.getName().equals(name)) {return event;}
         }
 
         return null;
     }
 
-    public boolean checkDuplicate(LocalDate date, String name)
+    public boolean checkDuplicate(LocalDate date, String name, EventObject.RepeatType repeatType)
     {
-        if(!eventList.containsKey(date)) {return false;}
+        ArrayList<EventObject> eventsOnDate = new ArrayList<>();
 
-        ArrayList<EventObject> eventsOnDate = eventList.get(date);
-        if(eventsOnDate == null) {return false;}
+        if(eventList.containsKey(date))
+        {
+            ArrayList<EventObject> _eventsOnDate = eventList.get(date);
+            if(_eventsOnDate != null)
+            {
+                eventsOnDate.addAll(_eventsOnDate);
+            }
+        }
+
+        eventsOnDate.addAll(getRepeatingEventsOnDate(date));
 
         for(EventObject event : eventsOnDate)
         {
@@ -227,10 +241,10 @@ public class EventManager {
         if(eventList.containsKey(date))
         {
             ArrayList<EventObject> eventsOnDate = eventList.get(date);
-
             if(eventsOnDate == null) {return;}
 
-            eventsOnDate.removeIf(event -> event.getName().equals(name));
+            eventsOnDate.removeIf(e -> e.getName().equals(name) && e.getDate().equals(date));
+            repeatingEventList.removeIf(e -> e.getName().equals(name) && e.getDate().equals(date));
         }
     }
 

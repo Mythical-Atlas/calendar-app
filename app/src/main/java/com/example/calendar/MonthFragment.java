@@ -25,21 +25,10 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MonthFragment extends Fragment implements MonthAdapter.OnItemListener, GestureDetector.OnGestureListener
+public class MonthFragment extends Fragment implements MonthAdapter.OnItemListener
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-
-    private GestureDetectorCompat gestureDetector;
-
-    /*public MonthFragment() {}
-
-    public static MonthFragment newInstance() {
-        MonthFragment fragment = new MonthFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,12 +50,6 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
 
         initWidgets(view);
         setMonthView();
-
-        gestureDetector = new GestureDetectorCompat(view.getContext(),this);
-        calendarRecyclerView.setOnTouchListener((v, event) -> {
-            gestureDetector.onTouchEvent(event);
-            return true;
-        });
     }
 
     private void initWidgets(View view)
@@ -178,36 +161,5 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
         LocalDate firstOfMonth = MainActivity.selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
         return firstOfMonth.plusDays(position - dayOfWeek);
-    }
-
-    @Override
-    public boolean onDown(@NonNull MotionEvent e) {return true;}
-    @Override
-    public void onShowPress(@NonNull MotionEvent e) {}
-    @Override
-    public boolean onSingleTapUp(@NonNull MotionEvent e) {return true;}
-    @Override
-    public boolean onScroll(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float distanceX, float distanceY) {return true;}
-    @Override
-    public void onLongPress(@NonNull MotionEvent e) {}
-    @Override
-    public boolean onFling(@Nullable MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY)
-    {
-        Log.i("fling velocityX", String.valueOf(velocityX));
-        Log.i("fling action", String.valueOf(e2.getAction()));
-
-        if(e2.getAction() != MotionEvent.ACTION_UP) {return true;}
-
-
-        if(velocityX < 0)
-        {
-            previousMonthAction();
-        }
-        else
-        {
-            nextMonthAction();
-        }
-
-        return true;
     }
 }

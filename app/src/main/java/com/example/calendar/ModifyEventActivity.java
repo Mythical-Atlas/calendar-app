@@ -3,45 +3,43 @@ package com.example.calendar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
-public class NewEventActivity extends AppCompatActivity
+public class ModifyEventActivity extends AppCompatActivity
 {
+    private TextView eventNameEditText;
+    private Spinner repeatTypeSpinner;
     private CalendarView calendarView;
+    private EventObject event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_event);
+        setContentView(R.layout.activity_modify_event);
+        getWidgets();
 
-        calendarView = findViewById(R.id.calendarView);
+        event = (EventObject)getIntent().getSerializableExtra("event_to_modify");
 
-        calendarView.setDate(MainActivity.selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        eventNameEditText.setText(event.getName());
+        calendarView.setDate(event.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        repeatTypeSpinner.setSelection(event.getRepeatType().ordinal());
 
         findViewById(R.id.cancelEventCreationButton).setOnClickListener(l ->
         {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
         });
-        findViewById(R.id.createEventButton).setOnClickListener(l -> tryCreateEvent());
+        findViewById(R.id.createEventButton).setOnClickListener(l -> trySaveEvent());
 
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) ->
         {
@@ -49,12 +47,18 @@ public class NewEventActivity extends AppCompatActivity
         });
     }
 
-    private void tryCreateEvent()
+    private void getWidgets()
     {
-        String eventName = ((TextView)findViewById(R.id.eventNameEditText)).getText().toString();
+        calendarView = findViewById(R.id.calendarView);
+        eventNameEditText = findViewById(R.id.eventNameEditText);
+        repeatTypeSpinner = findViewById(R.id.repeat_type_spinner);
+    }
+
+    private void trySaveEvent()
+    {
+        String eventName = eventNameEditText.getText().toString();
         LocalDate eventDate = Instant.ofEpochMilli(calendarView.getDate()).atZone(ZoneId.systemDefault()).toLocalDate();
-        int repeatIndex = ((Spinner)findViewById(R.id.repeat_type_spinner)).getSelectedItemPosition();
-        EventObject.RepeatType repeatType = EventObject.RepeatType.values()[repeatIndex];
+        int repeatIndex = repeatTypeSpinner.getSelectedItemPosition();
 
         if(eventName.equals(""))
         {
@@ -62,14 +66,9 @@ public class NewEventActivity extends AppCompatActivity
             t.show();
             return;
         }
-        if(MainActivity.eventManager.checkDuplicate(eventDate, eventName, repeatType))
-        {
-            Toast t = Toast.makeText(this, "This event is a duplicate of an existing event.", Toast.LENGTH_SHORT);
-            t.show();
-            return;
-        }
 
-        MainActivity.eventManager.addEvent(eventDate, eventName, repeatType);
+        MainActivity.eventManager.removeEvent(event.getDate(), event.getName());
+        MainActivity.eventManager.addEvent(eventDate, eventName, EventObject.RepeatType.values()[repeatIndex]);
         MainActivity.storeEventList(getApplicationContext());
 
         Intent intent = new Intent(this, MainActivity.class);
