@@ -24,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity
         });
         findViewById(R.id.deleteAllEventsButton).setOnClickListener(l ->
         {
-            MainActivity.deleteAllEvents(this);
+            EventManager.wipeEventListAndStore(this);
             Toast.makeText(this, "Deleted all events", Toast.LENGTH_SHORT).show();
         });
     }

@@ -33,7 +33,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static EventManager eventManager = new EventManager();
     public static LocalDate selectedDate;
 
     private NotificationChannel notificationChannel;
@@ -42,15 +41,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        // for debug
-        /*eventManager.addEvent(LocalDate.of(2024, 4, 26), "Test Event");
-        eventManager.addEvent(LocalDate.of(2024, 4, 26), "Test Event2");
-        eventManager.addEvent(LocalDate.of(2024, 4, 26), "Test Event3");
-        eventManager.addEvent(LocalDate.of(2024, 4, 26), "Test Event4");
-
-        eventManager.storeEvents(this, "calendar_event_list");*/
-
-        eventManager.loadEvents(this, "calendar_event_list");
+        EventManager.loadEvents(this);
 
         selectedDate = LocalDate.now();
 
@@ -119,16 +110,5 @@ public class MainActivity extends AppCompatActivity
     {
         BottomNavigationView navView = findViewById(R.id.bottomNavigationView);
         navView.setSelectedItemId(navView.getSelectedItemId());
-    }
-
-    public static void storeEventList(Context context)
-    {
-        eventManager.storeEvents(context, "calendar_event_list");
-    }
-
-    public static void deleteAllEvents(Context context)
-    {
-        eventManager.deleteAllEvents();
-        eventManager.storeEvents(context, "calendar_event_list");
     }
 }

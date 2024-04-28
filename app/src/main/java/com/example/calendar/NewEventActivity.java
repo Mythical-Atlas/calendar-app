@@ -56,26 +56,14 @@ public class NewEventActivity extends AppCompatActivity
         int repeatIndex = ((Spinner)findViewById(R.id.repeat_type_spinner)).getSelectedItemPosition();
         RepeatType repeatType = RepeatType.values()[repeatIndex];
 
-        EventAddModifyStatus status = MainActivity.eventManager.addEvent(eventDate, eventName, repeatType);
-
-        switch(status)
+        if(eventName.isEmpty())
         {
-            case SUCCESS:
-                MainActivity.storeEventList(getApplicationContext());
-                Intent intent = new Intent(this, MainActivity.class);
-                this.startActivity(intent);
-            case FAILED_BECAUSE_INVALID_DATE:
-                Toast.makeText(this, "Somehow, the date for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
-                return;
-            case FAILED_BECAUSE_INVALID_NAME:
-                Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT).show();
-                return;
-            case FAILED_BECAUSE_INVALID_REPEAT:
-                Toast.makeText(this, "Somehow, the repeat type for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
-                return;
-            case FAILED_BECAUSE_CLASH:
-                Toast.makeText(this, "This event clashes with an existing event.", Toast.LENGTH_SHORT).show();
-                return;
+            Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        EventManager.addEvent(new EventObject(eventName, eventDate, repeatType, 0), getApplicationContext());
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
     }
 }

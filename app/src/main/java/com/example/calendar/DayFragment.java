@@ -66,7 +66,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 
     private ArrayList<String> getEventNames(LocalDate date)
     {
-        ArrayList<EventObject> events = MainActivity.eventManager.getEventsIncludingRepeats(date);
+        ArrayList<EventObject> events = EventManager.getEventsIncludingRepeats(date);
         ArrayList<String> eventNames = new ArrayList<>();
 
         if(events == null) {return eventNames;}
@@ -98,12 +98,12 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onItemClick(int position, String dayText)
+    public void onItemClick(int position, String dayText) // TODO: fix to not have to search for an event by name
     {
         if(!dayText.equals(""))
         {
             Intent intent = new Intent(getContext(), ModifyEventActivity.class);
-            intent.putExtra("event_to_modify", MainActivity.eventManager.findEvent(MainActivity.selectedDate, dayText));
+            intent.putExtra("event_to_modify", EventManager.findEvent(MainActivity.selectedDate, dayText));
             this.startActivity(intent);
         }
         /*if(!dayText.equals(""))

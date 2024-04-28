@@ -14,27 +14,30 @@ enum RepeatType
 }
 
 public class EventObject implements Serializable {
-
     private UUID uuid;
-    private LocalDate date;
     private String name;
+    private LocalDate date;
     private RepeatType repeatType;
+    private int weekdayBits;
 
-    public EventObject(LocalDate date, String name, RepeatType repeatType) {
+    public EventObject(String name, LocalDate date, RepeatType repeatType, int weekdayBits) {
         uuid = UUID.randomUUID();
-        this.date = date;
         this.name = name;
+        this.date = date;
         this.repeatType = repeatType;
+        this.weekdayBits = weekdayBits;
     }
-    public EventObject(UUID uuid, LocalDate date, String name, RepeatType repeatType) {
+    public EventObject(UUID uuid, String name, LocalDate date, RepeatType repeatType, int weekdayBits) {
         this.uuid = uuid;
-        this.date = date;
         this.name = name;
+        this.date = date;
         this.repeatType = repeatType;
+        this.weekdayBits = weekdayBits;
     }
 
     public UUID getUuid() {return uuid;}
-    public LocalDate getDate() {return date;}
     public String getName() {return name;}
+    public LocalDate getDate() {return date;}
     public RepeatType getRepeatType() {return repeatType;}
+    public int getWeekdayBits() {return weekdayBits;}
 }

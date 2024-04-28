@@ -89,7 +89,7 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
             else
             {
                 LocalDate key = firstOfMonth.plusDays(i - dayOfWeek - 1);
-                int eventCount = MainActivity.eventManager.getEventCountIncludingRepeats(key);
+                int eventCount = EventManager.getEventCountIncludingRepeats(key);
 
                 if(eventCount == 0)
                 {
