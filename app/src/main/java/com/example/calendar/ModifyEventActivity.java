@@ -59,19 +59,28 @@ public class ModifyEventActivity extends AppCompatActivity
         String eventName = eventNameEditText.getText().toString();
         LocalDate eventDate = Instant.ofEpochMilli(calendarView.getDate()).atZone(ZoneId.systemDefault()).toLocalDate();
         int repeatIndex = repeatTypeSpinner.getSelectedItemPosition();
+        RepeatType repeatType = RepeatType.values()[repeatIndex];
 
-        if(eventName.equals(""))
+        EventAddModifyStatus status = MainActivity.eventManager.modifyEvent(event.getUuid(), eventDate, eventName, repeatType);
+
+        switch(status)
         {
-            Toast t = Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT);
-            t.show();
-            return;
+            case SUCCESS:
+                MainActivity.storeEventList(getApplicationContext());
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+            case FAILED_BECAUSE_INVALID_DATE:
+                Toast.makeText(this, "Somehow, the date for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_INVALID_NAME:
+                Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_INVALID_REPEAT:
+                Toast.makeText(this, "Somehow, the repeat type for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_CLASH:
+                Toast.makeText(this, "This event clashes with an existing event.", Toast.LENGTH_SHORT).show();
+                return;
         }
-
-        MainActivity.eventManager.removeEvent(event.getDate(), event.getName());
-        MainActivity.eventManager.addEvent(eventDate, eventName, EventObject.RepeatType.values()[repeatIndex]);
-        MainActivity.storeEventList(getApplicationContext());
-
-        Intent intent = new Intent(this, MainActivity.class);
-        this.startActivity(intent);
     }
 }

@@ -54,25 +54,28 @@ public class NewEventActivity extends AppCompatActivity
         String eventName = ((TextView)findViewById(R.id.eventNameEditText)).getText().toString();
         LocalDate eventDate = Instant.ofEpochMilli(calendarView.getDate()).atZone(ZoneId.systemDefault()).toLocalDate();
         int repeatIndex = ((Spinner)findViewById(R.id.repeat_type_spinner)).getSelectedItemPosition();
-        EventObject.RepeatType repeatType = EventObject.RepeatType.values()[repeatIndex];
+        RepeatType repeatType = RepeatType.values()[repeatIndex];
 
-        if(eventName.equals(""))
+        EventAddModifyStatus status = MainActivity.eventManager.addEvent(eventDate, eventName, repeatType);
+
+        switch(status)
         {
-            Toast t = Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT);
-            t.show();
-            return;
+            case SUCCESS:
+                MainActivity.storeEventList(getApplicationContext());
+                Intent intent = new Intent(this, MainActivity.class);
+                this.startActivity(intent);
+            case FAILED_BECAUSE_INVALID_DATE:
+                Toast.makeText(this, "Somehow, the date for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_INVALID_NAME:
+                Toast.makeText(this, "Please enter a name for this event.", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_INVALID_REPEAT:
+                Toast.makeText(this, "Somehow, the repeat type for this event was invalid. You should never see this message...", Toast.LENGTH_SHORT).show();
+                return;
+            case FAILED_BECAUSE_CLASH:
+                Toast.makeText(this, "This event clashes with an existing event.", Toast.LENGTH_SHORT).show();
+                return;
         }
-        if(MainActivity.eventManager.checkDuplicate(eventDate, eventName, repeatType))
-        {
-            Toast t = Toast.makeText(this, "This event is a duplicate of an existing event.", Toast.LENGTH_SHORT);
-            t.show();
-            return;
-        }
-
-        MainActivity.eventManager.addEvent(eventDate, eventName, repeatType);
-        MainActivity.storeEventList(getApplicationContext());
-
-        Intent intent = new Intent(this, MainActivity.class);
-        this.startActivity(intent);
     }
 }

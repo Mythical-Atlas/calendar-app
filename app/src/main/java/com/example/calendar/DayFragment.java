@@ -40,8 +40,8 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.dayBackButton).setOnClickListener(v -> previousDayAction(view));
-        view.findViewById(R.id.dayForwardButton).setOnClickListener(v -> nextDayAction(view));
+        view.findViewById(R.id.dayBackButton).setOnClickListener(v -> previousDayAction());
+        view.findViewById(R.id.dayForwardButton).setOnClickListener(v -> nextDayAction());
 
         initWidgets(view);
         setDayView();
@@ -66,7 +66,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 
     private ArrayList<String> getEventNames(LocalDate date)
     {
-        ArrayList<EventObject> events = MainActivity.eventManager.getEvents(MainActivity.selectedDate);
+        ArrayList<EventObject> events = MainActivity.eventManager.getEventsIncludingRepeats(date);
         ArrayList<String> eventNames = new ArrayList<>();
 
         if(events == null) {return eventNames;}
@@ -85,13 +85,13 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         return date.format(formatter);
     }
 
-    public void previousDayAction(View view)
+    public void previousDayAction()
     {
         MainActivity.selectedDate = MainActivity.selectedDate.minusDays(1);
         setDayView();
     }
 
-    public void nextDayAction(View view)
+    public void nextDayAction()
     {
         MainActivity.selectedDate = MainActivity.selectedDate.plusDays(1);
         setDayView();
@@ -103,7 +103,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         if(!dayText.equals(""))
         {
             Intent intent = new Intent(getContext(), ModifyEventActivity.class);
-            intent.putExtra("event_to_modify", MainActivity.eventManager.getEvent(MainActivity.selectedDate, dayText));
+            intent.putExtra("event_to_modify", MainActivity.eventManager.findEvent(MainActivity.selectedDate, dayText));
             this.startActivity(intent);
         }
         /*if(!dayText.equals(""))

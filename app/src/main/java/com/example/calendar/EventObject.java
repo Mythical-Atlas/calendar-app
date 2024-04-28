@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
+enum RepeatType
+{
+    NONE,
+    DAILY,
+    WEEKLY,
+    MONTHLY,
+    YEARLY
+}
+
 public class EventObject implements Serializable {
-    enum RepeatType
-    {
-        NONE,
-        DAILY,
-        WEEKLY,
-        MONTHLY,
-        YEARLY
-    }
 
     private UUID uuid;
     private LocalDate date;
