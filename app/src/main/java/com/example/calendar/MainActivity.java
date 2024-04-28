@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity
 
         findViewById(R.id.newEventButton).setOnClickListener(v ->
         {
-            Intent intent = new Intent(getApplicationContext(), NewEventActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ModifyEventActivity.class);
+            intent.putExtra("new_event_mode", true);
             this.startActivity(intent);
         });
         findViewById(R.id.settingsButton).setOnClickListener(v ->

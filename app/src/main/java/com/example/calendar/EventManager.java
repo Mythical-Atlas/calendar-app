@@ -127,12 +127,17 @@ public class EventManager {
         eventList.put(event.getUuid(), event);
     }
 
-    public static void removeEvent(EventObject event)
-    {
-        removeEvent(event.getUuid());
-    }
-    public static void removeEvent(UUID uuid)
+    public static void deleteEvent(UUID uuid)
     {
         eventList.remove(uuid);
+    }
+
+    public static void modifyEvent(UUID uuid, String name, LocalDate date, RepeatType repeatType, int weekdayBits)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setName(name);
+        _event.setDate(date);
+        _event.setRepeatType(repeatType);
+        _event.setWeekdayBits(weekdayBits);
     }
 }

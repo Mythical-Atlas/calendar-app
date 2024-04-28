@@ -2,7 +2,8 @@ package com.example.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,9 +18,14 @@ import java.util.UUID;
 
 public class ModifyEventActivity extends AppCompatActivity
 {
+    private TextView pageTitle;
     private TextView eventNameEditText;
     private Spinner repeatTypeSpinner;
     private CalendarView calendarView;
+    private Button deleteEventButton;
+    private Button saveChangesButton;
+
+    private boolean newEventMode;
     private UUID eventUuid;
 
     @Override
@@ -29,19 +35,44 @@ public class ModifyEventActivity extends AppCompatActivity
         setContentView(R.layout.activity_modify_event);
         getWidgets();
 
-        eventUuid = (UUID)getIntent().getSerializableExtra("event_to_modify");
-        EventObject event = EventManager.getEvent(eventUuid);
+        newEventMode = getIntent().getBooleanExtra("new_event_mode", false);
 
-        eventNameEditText.setText(event.getName());
-        calendarView.setDate(event.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
-        repeatTypeSpinner.setSelection(event.getRepeatType().ordinal());
+        if(newEventMode)
+        {
+            pageTitle.setText("Create a New Event");
+            saveChangesButton.setText("Create Event");
+            deleteEventButton.setVisibility(View.INVISIBLE);
+
+            calendarView.setDate(MainActivity.selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+        }
+        else
+        {
+            pageTitle.setText("Modify an Existing Event");
+            saveChangesButton.setText("Save Changes");
+            deleteEventButton.setVisibility(View.VISIBLE);
+
+            eventUuid = (UUID)getIntent().getSerializableExtra("event_to_modify");
+            EventObject event = EventManager.getEvent(eventUuid);
+
+            eventNameEditText.setText(event.getName());
+            calendarView.setDate(event.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
+            repeatTypeSpinner.setSelection(event.getRepeatType().ordinal());
+        }
 
         findViewById(R.id.cancelEventCreationButton).setOnClickListener(l ->
         {
             Intent intent = new Intent(this, MainActivity.class);
             this.startActivity(intent);
         });
-        findViewById(R.id.createEventButton).setOnClickListener(l -> trySaveEvent());
+        saveChangesButton.setOnClickListener(l -> trySaveEvent());
+        deleteEventButton.setOnClickListener(l ->
+        {
+            EventManager.deleteEvent(eventUuid);
+            EventManager.storeEvents(this);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            this.startActivity(intent);
+        });
 
         calendarView.setOnDateChangeListener((view, year, month, dayOfMonth) ->
         {
@@ -51,9 +82,12 @@ public class ModifyEventActivity extends AppCompatActivity
 
     private void getWidgets()
     {
+        pageTitle = findViewById(R.id.pageTitle);
         calendarView = findViewById(R.id.calendarView);
         eventNameEditText = findViewById(R.id.eventNameEditText);
         repeatTypeSpinner = findViewById(R.id.repeat_type_spinner);
+        deleteEventButton = findViewById(R.id.deleteEventButton);
+        saveChangesButton = findViewById(R.id.saveChangesButton);
     }
 
     private void trySaveEvent()
@@ -69,11 +103,14 @@ public class ModifyEventActivity extends AppCompatActivity
             return;
         }
 
-        EventObject _event = EventManager.getEvent(eventUuid);
-        _event.setName(eventName);
-        _event.setDate(eventDate);
-        _event.setRepeatType(repeatType);
-        _event.setWeekdayBits(0);
+        if(newEventMode)
+        {
+            EventManager.addEvent(new EventObject(eventName, eventDate, repeatType, 0));
+        }
+        else
+        {
+            EventManager.modifyEvent(eventUuid, eventName, eventDate, repeatType, 0);
+        }
         EventManager.storeEvents(this);
 
         Intent intent = new Intent(this, MainActivity.class);

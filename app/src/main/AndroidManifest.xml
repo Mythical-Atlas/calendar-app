@@ -24,9 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewEventActivity"
-            android:launchMode="singleTask"/>
-        <activity
             android:name=".ModifyEventActivity"
             android:launchMode="singleTask"/>
         <activity

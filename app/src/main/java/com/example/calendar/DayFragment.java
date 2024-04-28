@@ -100,6 +100,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     public void onItemClick(UUID eventUuid)
     {
         Intent intent = new Intent(getContext(), ModifyEventActivity.class);
+        intent.putExtra("new_event_mode", false);
         intent.putExtra("event_to_modify", eventUuid);
         this.startActivity(intent);
     }
