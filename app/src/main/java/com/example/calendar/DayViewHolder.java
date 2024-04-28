@@ -6,9 +6,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.UUID;
+
 public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
     public final TextView eventName;
+    public UUID eventUuid;
     private final DayAdapter.OnItemListener onItemListener;
 
     public DayViewHolder(@NonNull View itemView, DayAdapter.OnItemListener onItemListener)
@@ -22,6 +25,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
     @Override
     public void onClick(View v)
     {
-        onItemListener.onItemClick(getAdapterPosition(), (String)eventName.getText());
+        onItemListener.onItemClick(eventUuid);
     }
 }

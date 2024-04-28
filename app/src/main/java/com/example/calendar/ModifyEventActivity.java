@@ -67,7 +67,11 @@ public class ModifyEventActivity extends AppCompatActivity
             return;
         }
 
-        EventManager.modifyEvent(event, new EventObject(eventName, eventDate, repeatType, 0), getApplicationContext());
+        EventObject _event = EventManager.getEvent(event.getUuid());
+        _event.setName(eventName);
+        _event.setDate(eventDate);
+        _event.setRepeatType(repeatType);
+        _event.setWeekdayBits(0);
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
     }

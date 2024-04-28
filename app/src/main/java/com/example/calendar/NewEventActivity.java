@@ -62,7 +62,7 @@ public class NewEventActivity extends AppCompatActivity
             return;
         }
 
-        EventManager.addEvent(new EventObject(eventName, eventDate, repeatType, 0), getApplicationContext());
+        EventManager.addEvent(new EventObject(eventName, eventDate, repeatType, 0));
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
     }

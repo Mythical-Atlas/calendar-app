@@ -40,4 +40,9 @@ public class EventObject implements Serializable {
     public LocalDate getDate() {return date;}
     public RepeatType getRepeatType() {return repeatType;}
     public int getWeekdayBits() {return weekdayBits;}
+
+    public void setName(String name) {this.name = name;}
+    public void setDate(LocalDate date) {this.date = date;}
+    public void setRepeatType(RepeatType repeatType) {this.repeatType = repeatType;}
+    public void setWeekdayBits(int weekdayBits) {this.weekdayBits = weekdayBits;}
 }

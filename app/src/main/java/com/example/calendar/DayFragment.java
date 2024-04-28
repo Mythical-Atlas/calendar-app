@@ -19,6 +19,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 {
@@ -56,27 +57,25 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     private void setDayView()
     {
         dayMonthYearText.setText(dayMonthYearFromDate(MainActivity.selectedDate));
-        ArrayList<String> eventNames = getEventNames(MainActivity.selectedDate);
+        ArrayList<UUID> eventUuids = getEventUuids(MainActivity.selectedDate);
 
-        DayAdapter dayAdapter = new DayAdapter(eventNames, this);
+        DayAdapter dayAdapter = new DayAdapter(eventUuids, this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         eventsRecyclerView.setLayoutManager(layoutManager);
         eventsRecyclerView.setAdapter(dayAdapter);
     }
 
-    private ArrayList<String> getEventNames(LocalDate date)
+    private ArrayList<UUID> getEventUuids(LocalDate date)
     {
         ArrayList<EventObject> events = EventManager.getEventsIncludingRepeats(date);
-        ArrayList<String> eventNames = new ArrayList<>();
+        ArrayList<UUID> eventUuids = new ArrayList<>();
 
-        if(events == null) {return eventNames;}
-
-        for(EventObject event : events)
+        for(EventObject _event : events)
         {
-            eventNames.add(event.getName());
+            eventUuids.add(_event.getUuid());
         }
 
-        return eventNames;
+        return eventUuids;
     }
 
     private String dayMonthYearFromDate(LocalDate date)
@@ -98,18 +97,10 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onItemClick(int position, String dayText) // TODO: fix to not have to search for an event by name
+    public void onItemClick(UUID eventUuid) // TODO: fix to not have to search for an event by name
     {
-        if(!dayText.equals(""))
-        {
-            Intent intent = new Intent(getContext(), ModifyEventActivity.class);
-            intent.putExtra("event_to_modify", EventManager.findEvent(MainActivity.selectedDate, dayText));
-            this.startActivity(intent);
-        }
-        /*if(!dayText.equals(""))
-        {
-            String message = "Selected Event: " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }*/
+        Intent intent = new Intent(getContext(), ModifyEventActivity.class);
+        intent.putExtra("event_to_modify", EventManager.getEvent(eventUuid));
+        this.startActivity(intent);
     }
 }

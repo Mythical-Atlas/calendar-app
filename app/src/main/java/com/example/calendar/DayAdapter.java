@@ -8,15 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
 {
-    private final ArrayList<String> eventNames;
+    private final ArrayList<UUID> eventUuids;
     private final OnItemListener onItemListener;
 
-    public DayAdapter(ArrayList<String> eventNames, OnItemListener onItemListener)
+    public DayAdapter(ArrayList<UUID> eventUuids, OnItemListener onItemListener)
     {
-        this.eventNames = eventNames;
+        this.eventUuids = eventUuids;
         this.onItemListener = onItemListener;
     }
 
@@ -34,17 +35,18 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position)
     {
-        holder.eventName.setText(eventNames.get(position));
+        holder.eventName.setText(EventManager.getEvent(eventUuids.get(position)).getName());
+        holder.eventUuid = eventUuids.get(position);
     }
 
     @Override
     public int getItemCount()
     {
-        return eventNames.size();
+        return eventUuids.size();
     }
 
     public interface OnItemListener
     {
-        void onItemClick(int position, String dayText);
+        void onItemClick(UUID eventUuid);
     }
 }
