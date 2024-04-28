@@ -13,13 +13,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.UUID;
 
 public class ModifyEventActivity extends AppCompatActivity
 {
     private TextView eventNameEditText;
     private Spinner repeatTypeSpinner;
     private CalendarView calendarView;
-    private EventObject event;
+    private UUID eventUuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +29,8 @@ public class ModifyEventActivity extends AppCompatActivity
         setContentView(R.layout.activity_modify_event);
         getWidgets();
 
-        event = (EventObject)getIntent().getSerializableExtra("event_to_modify");
+        eventUuid = (UUID)getIntent().getSerializableExtra("event_to_modify");
+        EventObject event = EventManager.getEvent(eventUuid);
 
         eventNameEditText.setText(event.getName());
         calendarView.setDate(event.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
@@ -67,11 +69,13 @@ public class ModifyEventActivity extends AppCompatActivity
             return;
         }
 
-        EventObject _event = EventManager.getEvent(event.getUuid());
+        EventObject _event = EventManager.getEvent(eventUuid);
         _event.setName(eventName);
         _event.setDate(eventDate);
         _event.setRepeatType(repeatType);
         _event.setWeekdayBits(0);
+        EventManager.storeEvents(this);
+
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
     }

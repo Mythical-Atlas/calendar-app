@@ -97,10 +97,10 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onItemClick(UUID eventUuid) // TODO: fix to not have to search for an event by name
+    public void onItemClick(UUID eventUuid)
     {
         Intent intent = new Intent(getContext(), ModifyEventActivity.class);
-        intent.putExtra("event_to_modify", EventManager.getEvent(eventUuid));
+        intent.putExtra("event_to_modify", eventUuid);
         this.startActivity(intent);
     }
 }
