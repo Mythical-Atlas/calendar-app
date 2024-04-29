@@ -132,12 +132,55 @@ public class EventManager {
         eventList.remove(uuid);
     }
 
-    public static void modifyEvent(UUID uuid, String name, LocalDate date, RepeatType repeatType, int weekdayBits)
+    public static void setEventName(UUID uuid, String name)
     {
         EventObject _event = getEvent(uuid);
         _event.setName(name);
+    }
+    public static void setEventDate(UUID uuid, LocalDate date)
+    {
+        EventObject _event = getEvent(uuid);
         _event.setDate(date);
+    }
+    public static void setEventRepeatType(UUID uuid, RepeatType repeatType)
+    {
+        EventObject _event = getEvent(uuid);
         _event.setRepeatType(repeatType);
+    }
+    public static void setEventWeekdayBits(UUID uuid, int weekdayBits)
+    {
+        EventObject _event = getEvent(uuid);
         _event.setWeekdayBits(weekdayBits);
     }
+    public static void setEventRepeatTimes(UUID uuid, int repeatTimes)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setRepeatTimes(repeatTimes);
+    }
+    public static void setEventClassUuid(UUID uuid, UUID classUuid)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setClassUuid(classUuid);
+    }
+    public static void setEventColor(UUID uuid, int color)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setColor(color);
+    }
+    public static void setEventNotes(UUID uuid, String notes)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setNotes(notes);
+    }
+    public static void setEventLocation(UUID uuid, String location)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setLocation(location);
+    }
+    public static void setEventReminderOffset(UUID uuid, int reminderOffset)
+    {
+        EventObject _event = getEvent(uuid);
+        _event.setReminderOffset(reminderOffset);
+    }
+
 }

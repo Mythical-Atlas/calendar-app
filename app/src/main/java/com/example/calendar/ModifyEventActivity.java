@@ -105,11 +105,13 @@ public class ModifyEventActivity extends AppCompatActivity
 
         if(newEventMode)
         {
-            EventManager.addEvent(new EventObject(eventName, eventDate, repeatType, 0));
+            EventManager.addEvent(new EventObject(eventName, eventDate, repeatType));
         }
         else
         {
-            EventManager.modifyEvent(eventUuid, eventName, eventDate, repeatType, 0);
+            EventManager.setEventName(eventUuid, eventName);
+            EventManager.setEventDate(eventUuid, eventDate);
+            EventManager.setEventRepeatType(eventUuid, repeatType);
         }
         EventManager.storeEvents(this);
 
