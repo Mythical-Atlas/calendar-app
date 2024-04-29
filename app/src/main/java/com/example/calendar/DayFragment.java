@@ -97,11 +97,29 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onItemClick(UUID eventUuid)
+    public void onItemClick(int position, UUID eventUuid)
     {
-        Intent intent = new Intent(getContext(), ModifyEventActivity.class);
+        DayViewHolder itemHolder = (DayViewHolder)eventsRecyclerView.findViewHolderForLayoutPosition(position);
+        boolean isItemExpanded = itemHolder.expanded;
+
+        shrinkRecyclerItems();
+        if(!isItemExpanded)
+        {
+            itemHolder.expand();
+        }
+
+        /*Intent intent = new Intent(getContext(), ModifyEventActivity.class);
         intent.putExtra("new_event_mode", false);
         intent.putExtra("event_to_modify", eventUuid);
-        this.startActivity(intent);
+        this.startActivity(intent);*/
+    }
+
+    private void shrinkRecyclerItems()
+    {
+        for(int i = 0; i < eventsRecyclerView.getChildCount(); i++)
+        {
+            DayViewHolder _itemHolder = (DayViewHolder)eventsRecyclerView.findViewHolderForLayoutPosition(i);
+            _itemHolder.shrink();
+        }
     }
 }

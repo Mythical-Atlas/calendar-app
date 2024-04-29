@@ -26,9 +26,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
     public DayViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.day_cell, parent, false);
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int)(parent.getHeight() * 0.166666666);
+        View view = inflater.inflate(R.layout.day_cell_expanded, parent, false);
+        //ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        //layoutParams.height = 200;
         return new DayViewHolder(view, onItemListener);
     }
 
@@ -47,6 +47,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
 
     public interface OnItemListener
     {
-        void onItemClick(UUID eventUuid);
+        void onItemClick(int position, UUID eventUuid);
     }
 }
