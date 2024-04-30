@@ -3,6 +3,7 @@ package com.example.calendar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
@@ -39,6 +40,18 @@ public class ModifyEventActivity extends AppCompatActivity
         getWidgets();
 
         newEventMode = getIntent().getBooleanExtra("new_event_mode", false);
+
+        repeatTimesEditText.setVisibility(View.INVISIBLE);
+        repeatTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
+            {
+                repeatTimesEditText.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
 
         if(newEventMode)
         {

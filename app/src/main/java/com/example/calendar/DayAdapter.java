@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,16 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
 
         holder.eventUuid = _uuid;
         holder.eventName.setText(_event.getName());
+
+        int colorIndex = EventManager.getEvent(_uuid).getColor();
+        if(colorIndex == 0)
+        {
+            holder.eventName.setBackgroundColor(Color.TRANSPARENT);
+        }
+        else
+        {
+            holder.eventName.setBackgroundColor(Color.parseColor(holder.itemView.getResources().getStringArray(R.array.color_value_array)[colorIndex]));
+        }
 
         String repeatString = "Repeats ";
         RepeatType repeatType = _event.getRepeatType();
