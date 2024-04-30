@@ -35,8 +35,40 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
     @Override
     public void onBindViewHolder(@NonNull DayViewHolder holder, int position)
     {
-        holder.eventName.setText(EventManager.getEvent(eventUuids.get(position)).getName());
-        holder.eventUuid = eventUuids.get(position);
+        UUID _uuid = eventUuids.get(position);
+        EventObject _event = EventManager.getEvent(_uuid);
+
+        holder.eventUuid = _uuid;
+        holder.eventName.setText(_event.getName());
+
+        String repeatString = "Repeats ";
+        RepeatType repeatType = _event.getRepeatType();
+        switch(repeatType)
+        {
+            case NONE:
+                repeatString = "Doesn't repeat.";
+                break;
+            case DAILY:
+                repeatString += "daily";
+                break;
+            case WEEKLY:
+                repeatString += "weekly";
+                break;
+            case MONTHLY:
+                repeatString += "monthly";
+                break;
+            case YEARLY:
+                repeatString += "yearly";
+                break;
+        }
+        if(repeatType != RepeatType.NONE)
+        {
+            repeatString += ", " + _event.getRepeatTimes() + " times.";
+        }
+        holder.repeatTextView.setText(repeatString);
+
+        holder.locationTextView.setText(_event.getLocation());
+        holder.tempColorTextView.setText(String.valueOf(_event.getColor()));
     }
 
     @Override
@@ -47,6 +79,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
 
     public interface OnItemListener
     {
-        void onItemClick(int position, UUID eventUuid);
+        void onEventExpand(int position);
+        void onEventModify(UUID eventUuid);
     }
 }

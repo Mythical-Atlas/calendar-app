@@ -21,6 +21,9 @@ public class ModifyEventActivity extends AppCompatActivity
     private TextView pageTitle;
     private TextView eventNameEditText;
     private Spinner repeatTypeSpinner;
+    private TextView repeatTimesEditText;
+    private Spinner colorSpinner;
+    private TextView locationEditText;
     private CalendarView calendarView;
     private Button deleteEventButton;
     private Button saveChangesButton;
@@ -57,6 +60,9 @@ public class ModifyEventActivity extends AppCompatActivity
             eventNameEditText.setText(event.getName());
             calendarView.setDate(event.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
             repeatTypeSpinner.setSelection(event.getRepeatType().ordinal());
+            repeatTimesEditText.setText(String.valueOf(event.getRepeatTimes()));
+            colorSpinner.setSelection(event.getColor());
+            locationEditText.setText(event.getLocation());
         }
 
         findViewById(R.id.cancelEventCreationButton).setOnClickListener(l ->
@@ -86,6 +92,9 @@ public class ModifyEventActivity extends AppCompatActivity
         calendarView = findViewById(R.id.calendarView);
         eventNameEditText = findViewById(R.id.eventNameEditText);
         repeatTypeSpinner = findViewById(R.id.repeat_type_spinner);
+        repeatTimesEditText = findViewById(R.id.repeatTimesEditText);
+        colorSpinner = findViewById(R.id.colorSpinner);
+        locationEditText = findViewById(R.id.editTextText);
         deleteEventButton = findViewById(R.id.deleteEventButton);
         saveChangesButton = findViewById(R.id.saveChangesButton);
     }
@@ -105,7 +114,9 @@ public class ModifyEventActivity extends AppCompatActivity
 
         if(newEventMode)
         {
-            EventManager.addEvent(new EventObject(eventName, eventDate, repeatType));
+            EventObject _event = new EventObject(eventName, eventDate, repeatType);
+            eventUuid = _event.getUuid();
+            EventManager.addEvent(_event);
         }
         else
         {
@@ -113,6 +124,18 @@ public class ModifyEventActivity extends AppCompatActivity
             EventManager.setEventDate(eventUuid, eventDate);
             EventManager.setEventRepeatType(eventUuid, repeatType);
         }
+
+        if(repeatTimesEditText.getText().length() > 0)
+        {
+            EventManager.setEventRepeatTimes(eventUuid, Integer.parseInt(repeatTimesEditText.getText().toString()));
+        }
+        else
+        {
+            EventManager.setEventRepeatTimes(eventUuid, 0); // TODO: is this fine?
+        }
+        EventManager.setEventColor(eventUuid, colorSpinner.getSelectedItemPosition()); // TODO: this will definitely need to change
+        EventManager.setEventLocation(eventUuid, locationEditText.getText().toString());
+
         EventManager.storeEvents(this);
 
         Intent intent = new Intent(this, MainActivity.class);

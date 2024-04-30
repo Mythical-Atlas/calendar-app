@@ -11,5 +11,14 @@
         <item>Repeats Monthly</item>
         <item>Repeats Yearly</item>
     </string-array>
+    <string-array name="color_array">
+        <item>None</item>
+        <item>Red</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Cyan</item>
+        <item>Blue</item>
+        <item>Magenta</item>
+    </string-array>
     <string name="enable_notifications_settings_key">enable_notifications_settings_key</string>
 </resources>

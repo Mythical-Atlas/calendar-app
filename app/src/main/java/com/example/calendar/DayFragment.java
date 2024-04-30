@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +55,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         dayMonthYearText = view.findViewById(R.id.dayMonthYearTV);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void setDayView()
     {
         dayMonthYearText.setText(dayMonthYearFromDate(MainActivity.selectedDate));
@@ -63,6 +65,11 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         eventsRecyclerView.setLayoutManager(layoutManager);
         eventsRecyclerView.setAdapter(dayAdapter);
+
+        eventsRecyclerView.setOnTouchListener((v, e) -> {
+            //shrinkRecyclerItems();
+            return false;
+        });
     }
 
     private ArrayList<UUID> getEventUuids(LocalDate date)
@@ -97,7 +104,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
     }
 
     @Override
-    public void onItemClick(int position, UUID eventUuid)
+    public void onEventExpand(int position)
     {
         DayViewHolder itemHolder = (DayViewHolder)eventsRecyclerView.findViewHolderForLayoutPosition(position);
         boolean isItemExpanded = itemHolder.expanded;
@@ -107,11 +114,15 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         {
             itemHolder.expand();
         }
+    }
 
-        /*Intent intent = new Intent(getContext(), ModifyEventActivity.class);
+    @Override
+    public void onEventModify(UUID eventUuid)
+    {
+        Intent intent = new Intent(getContext(), ModifyEventActivity.class);
         intent.putExtra("new_event_mode", false);
         intent.putExtra("event_to_modify", eventUuid);
-        this.startActivity(intent);*/
+        this.startActivity(intent);
     }
 
     private void shrinkRecyclerItems()
@@ -119,7 +130,10 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         for(int i = 0; i < eventsRecyclerView.getChildCount(); i++)
         {
             DayViewHolder _itemHolder = (DayViewHolder)eventsRecyclerView.findViewHolderForLayoutPosition(i);
-            _itemHolder.shrink();
+            if(_itemHolder != null)
+            {
+                _itemHolder.shrink();
+            }
         }
     }
 }
