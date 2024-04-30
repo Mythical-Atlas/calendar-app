@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,12 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.month_cell, parent, false);
+
+        int divHeightInDP = 5;
+        int divHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, divHeightInDP + 0.5f, view.getResources().getDisplayMetrics());
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int)(parent.getHeight() * 0.166666666);
+        layoutParams.height = (int)(parent.getHeight() * 0.166666666 - divHeight);
+
         return new MonthViewHolder(view, onItemListener);
     }
 

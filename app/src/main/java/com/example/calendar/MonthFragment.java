@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,6 +50,15 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
         view.findViewById(R.id.monthForwardButton).setOnClickListener(v -> nextMonthAction());
 
         initWidgets(view);
+
+        calendarRecyclerView.setPadding(10, 10, 0, 0);
+        DividerItemDecoration vertDiv = new DividerItemDecoration(calendarRecyclerView.getContext(), RecyclerView.VERTICAL);
+        DividerItemDecoration horiDiv = new DividerItemDecoration(calendarRecyclerView.getContext(), RecyclerView.HORIZONTAL);
+        horiDiv.setDrawable(getResources().getDrawable(R.drawable.month_cell_divider));
+        vertDiv.setDrawable(getResources().getDrawable(R.drawable.month_cell_divider));
+        calendarRecyclerView.addItemDecoration(vertDiv);
+        calendarRecyclerView.addItemDecoration(horiDiv);
+
         setMonthView();
     }
 
@@ -65,7 +75,10 @@ public class MonthFragment extends Fragment implements MonthAdapter.OnItemListen
         ArrayList<String> eventCountsInMonth = eventCountsInMonthArray(MainActivity.selectedDate);
 
         MonthAdapter monthAdapter = new MonthAdapter(daysInMonth, eventCountsInMonth, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 7);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 7) {
+            @Override
+            public boolean canScrollVertically() {return false;}
+        };
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(monthAdapter);
     }

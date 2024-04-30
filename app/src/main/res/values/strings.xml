@@ -3,7 +3,6 @@
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="notification_channel_id">Correll Calendar Notification ID</string>
     <string-array name="repeat_type_array">
         <item>Doesn\'t Repeat</item>
         <item>Repeats Daily</item>
@@ -29,5 +28,4 @@
         <item>#0000FF</item>
         <item>#FF00FF</item>
     </string-array>
-    <string name="enable_notifications_settings_key">enable_notifications_settings_key</string>
 </resources>

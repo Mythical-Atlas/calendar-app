@@ -1,8 +1,6 @@
 package com.example.calendar;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -17,11 +15,6 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         findViewById(R.id.settingsCancelButton).setOnClickListener(l -> goToMainActivity());
-        findViewById(R.id.saveSettingsButton).setOnClickListener(l ->
-        {
-            saveSettings();
-            goToMainActivity();
-        });
         findViewById(R.id.deleteAllEventsButton).setOnClickListener(l ->
         {
             EventManager.clearEvents();
@@ -33,13 +26,5 @@ public class SettingsActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
-    }
-
-    private void saveSettings()
-    {
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean(getString(R.string.enable_notifications_settings_key), true);
-        editor.apply();
     }
 }

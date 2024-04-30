@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cell_background">
+    android:background="@drawable/month_cell_background">
 
     <TextView
         android:id="@+id/monthCellDayText"
@@ -22,9 +22,9 @@
         android:text="0"
         android:textColor="@color/black"
         android:textSize="12sp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
