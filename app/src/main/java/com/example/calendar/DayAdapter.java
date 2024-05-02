@@ -97,7 +97,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
         holder.repeatTextView.setText(repeatString);
 
         holder.locationTextView.setText(_event.getLocation());
-        holder.tempColorTextView.setText(String.valueOf(_event.getColor()));
     }
 
     @Override

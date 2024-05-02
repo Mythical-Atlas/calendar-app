@@ -49,7 +49,7 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
         initWidgets(view);
         setDayView();
 
-        eventsRecyclerView.setPadding(0, 0, 0, 10);
+        eventsRecyclerView.setPadding(10, 0, 10, 10);
         DividerItemDecoration vertDiv = new DividerItemDecoration(eventsRecyclerView.getContext(), RecyclerView.VERTICAL);
         vertDiv.setDrawable(getResources().getDrawable(R.drawable.month_cell_divider));
         eventsRecyclerView.addItemDecoration(vertDiv);

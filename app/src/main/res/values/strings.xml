@@ -11,7 +11,7 @@
         <item>Repeats Yearly</item>
     </string-array>
     <string-array name="color_name_array">
-        <item>None</item>
+        <item>No Color</item>
         <item>Red</item>
         <item>Yellow</item>
         <item>Green</item>

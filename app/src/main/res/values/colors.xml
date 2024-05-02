@@ -5,10 +5,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="c1s1">#FFFFFF</color>
-    <color name="c1s2">#6C6C6C</color>
-    <color name="c1s3">#323232</color>
-    <color name="c1s4">#000000</color>
+    <color name="c1s1">#042A2B</color>
+    <color name="c1s2">#5EB1BF</color>
+    <color name="c1s3">#99CDD6</color>
+    <color name="c1s4">#CDEDF6</color>
 
     <color name="dark_green">#042A2B</color>
     <color name="moonstone">#5EB1BF</color>

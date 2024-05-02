@@ -19,8 +19,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
     public TextView eventName;
     public TextView repeatTextView;
     public TextView locationTextView;
-    public TextView notesTextView;
-    public TextView tempColorTextView;
     public ConstraintLayout colorRing;
 
     private Button modifyButton;
@@ -29,6 +27,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
     private final DayAdapter.OnItemListener onItemListener;
 
     private int normalHeight;
+    private int noLocationHeight;
     private int expandedHeight;
     public boolean expanded;
 
@@ -41,12 +40,13 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
 
         repeatTextView.setVisibility(View.INVISIBLE);
         locationTextView.setVisibility(View.INVISIBLE);
-        tempColorTextView.setVisibility(View.INVISIBLE);
         modifyButton.setVisibility(View.INVISIBLE);
 
         modifyButton.setOnClickListener(l -> onItemListener.onEventModify(eventUuid));
 
         expandedHeight = itemView.getLayoutParams().height;
+        int offsetInDP = 40;
+        noLocationHeight = expandedHeight -(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, offsetInDP + 0.5f, itemView.getResources().getDisplayMetrics());
         int heightInDP = 60;
         normalHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, heightInDP + 0.5f, itemView.getResources().getDisplayMetrics());
 
@@ -62,7 +62,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
         eventName = itemView.findViewById(R.id.dayCellEventNameText);
         repeatTextView = itemView.findViewById(R.id.repeatTextView);
         locationTextView = itemView.findViewById(R.id.locationTextView);
-        tempColorTextView = itemView.findViewById(R.id.tempColorTextView);
         modifyButton = itemView.findViewById(R.id.modifyButton);
         colorRing = itemView.findViewById(R.id.colorRingLayout);
     }
@@ -79,12 +78,18 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
         {
             expanded = true;
             ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
-            layoutParams.height = expandedHeight;
+            if(!locationTextView.getText().toString().isEmpty())
+            {
+                layoutParams.height = expandedHeight;
+            }
+            else
+            {
+                layoutParams.height = noLocationHeight;
+            }
             this.itemView.setLayoutParams(layoutParams);
 
             repeatTextView.setVisibility(View.VISIBLE);
             locationTextView.setVisibility(View.VISIBLE);
-            tempColorTextView.setVisibility(View.VISIBLE);
             modifyButton.setVisibility(View.VISIBLE);
         }
     }
@@ -99,7 +104,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
 
             repeatTextView.setVisibility(View.INVISIBLE);
             locationTextView.setVisibility(View.INVISIBLE);
-            tempColorTextView.setVisibility(View.INVISIBLE);
             modifyButton.setVisibility(View.INVISIBLE);
         }
     }
