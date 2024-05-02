@@ -13,6 +13,8 @@
         android:layout_height="48dp"
         android:layout_marginBottom="50dp"
         android:text="Back"
+        android:backgroundTint="@color/c1s3"
+        android:textColor="@color/c1s1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -22,6 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete All Events"
+        android:backgroundTint="@color/c1s3"
+        android:textColor="@color/c1s1"
         app:layout_constraintBottom_toTopOf="@+id/settingsCancelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
