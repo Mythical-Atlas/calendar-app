@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/c1s4"
     android:orientation="vertical"
     tools:context=".MonthFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/monthBackButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/baseline_arrow_circle_left_24"
-            android:backgroundTint="@color/blue"
-            android:layout_marginBottom="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/baseline_arrow_circle_left_24"
+            android:backgroundTint="@color/c1s1" />
 
         <TextView
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
             android:text="Feb 2021"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textColor="@color/c1s1"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/monthForwardButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/baseline_arrow_circle_right_24"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/c1s1"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,65 +62,72 @@
             android:background="@drawable/day_of_week_background"
             android:text="SUN"
             android:textAlignment="center"
-            android:textColor="@color/gray"
+            android:textColor="@color/c1s1"
             android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="MON"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="TUE"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="WED"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="THU"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="FRI"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/day_of_week_background"
             android:text="SAT"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/c1s1"
+            android:textSize="16sp" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

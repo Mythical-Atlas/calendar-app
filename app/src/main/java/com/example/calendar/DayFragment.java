@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +48,11 @@ public class DayFragment extends Fragment implements DayAdapter.OnItemListener
 
         initWidgets(view);
         setDayView();
+
+        eventsRecyclerView.setPadding(0, 0, 0, 10);
+        DividerItemDecoration vertDiv = new DividerItemDecoration(eventsRecyclerView.getContext(), RecyclerView.VERTICAL);
+        vertDiv.setDrawable(getResources().getDrawable(R.drawable.month_cell_divider));
+        eventsRecyclerView.addItemDecoration(vertDiv);
     }
 
     private void initWidgets(View view)

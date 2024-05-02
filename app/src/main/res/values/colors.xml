@@ -4,4 +4,18 @@
     <color name="blue">#0000FF</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="c1s1">#FFFFFF</color>
+    <color name="c1s2">#6C6C6C</color>
+    <color name="c1s3">#323232</color>
+    <color name="c1s4">#000000</color>
+
+    <color name="dark_green">#042A2B</color>
+    <color name="moonstone">#5EB1BF</color>
+    <color name="non_photo_blue">#99CDD6</color>
+    <color name="light_cyan">#CDEDF6</color>
+    <color name="atomic_tangerine">#F4A27C</color>
+    <color name="crayola">#EF7B45</color>
+    <color name="chili_red">#D84727</color>
+    <color name="sienna">#792816</color>
 </resources>

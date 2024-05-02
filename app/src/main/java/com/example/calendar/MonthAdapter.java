@@ -43,6 +43,16 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthViewHolder>
     {
         holder.dayOfMonth.setText(daysOfMonth.get(position));
         holder.eventCount.setText(eventCounts.get(position));
+
+        if(daysOfMonth.get(position).isEmpty())
+        {
+            holder.itemView.setBackground(holder.itemView.getResources().getDrawable(R.drawable.month_cell_background_empty));
+        }
+
+        if(eventCounts.get(position).isEmpty())
+        {
+            holder.eventCount.setBackground(null);
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.calendar;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,14 +43,31 @@ public class DayAdapter extends RecyclerView.Adapter<DayViewHolder>
         holder.eventUuid = _uuid;
         holder.eventName.setText(_event.getName());
 
+        // believe me, I'm aware of how bad this is...
         int colorIndex = EventManager.getEvent(_uuid).getColor();
-        if(colorIndex == 0)
+        switch(colorIndex)
         {
-            holder.eventName.setBackgroundColor(Color.TRANSPARENT);
-        }
-        else
-        {
-            holder.eventName.setBackgroundColor(Color.parseColor(holder.itemView.getResources().getStringArray(R.array.color_value_array)[colorIndex]));
+            case 0:
+                holder.colorRing.setBackground(null);
+                break;
+            case 1:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_red));
+                break;
+            case 2:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_yellow));
+                break;
+            case 3:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_green));
+                break;
+            case 4:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_cyan));
+                break;
+            case 5:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_blue));
+                break;
+            case 6:
+                holder.colorRing.setBackground(holder.itemView.getResources().getDrawable(R.drawable.cell_color_ring_magenta));
+                break;
         }
 
         String repeatString = "Repeats ";

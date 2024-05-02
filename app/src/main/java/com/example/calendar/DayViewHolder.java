@@ -1,6 +1,7 @@
 package com.example.calendar;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.UUID;
@@ -19,6 +21,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
     public TextView locationTextView;
     public TextView notesTextView;
     public TextView tempColorTextView;
+    public ConstraintLayout colorRing;
 
     private Button modifyButton;
 
@@ -61,6 +64,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder implements View.OnCli
         locationTextView = itemView.findViewById(R.id.locationTextView);
         tempColorTextView = itemView.findViewById(R.id.tempColorTextView);
         modifyButton = itemView.findViewById(R.id.modifyButton);
+        colorRing = itemView.findViewById(R.id.colorRingLayout);
     }
 
     @Override
