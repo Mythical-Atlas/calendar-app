@@ -163,3 +163,4 @@ public class EventManager {
         _event.setLocation(location);
     }
 }
+

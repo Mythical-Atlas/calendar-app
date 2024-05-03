@@ -144,9 +144,9 @@ public class ModifyEventActivity extends AppCompatActivity
         }
         else
         {
-            EventManager.setEventRepeatTimes(eventUuid, 0); // TODO: is this fine?
+            EventManager.setEventRepeatTimes(eventUuid, 0);
         }
-        EventManager.setEventColor(eventUuid, colorSpinner.getSelectedItemPosition()); // TODO: this will definitely need to change
+        EventManager.setEventColor(eventUuid, colorSpinner.getSelectedItemPosition());
         EventManager.setEventLocation(eventUuid, locationEditText.getText().toString());
 
         EventManager.storeEvents(this);

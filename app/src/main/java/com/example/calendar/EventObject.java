@@ -19,7 +19,7 @@ public class EventObject implements Serializable {
     private LocalDate date;
     private RepeatType repeatType;
     private int repeatTimes;
-    private int color; // TODO: figure out the best datatype for this
+    private int color;
     private String location;
 
     public EventObject(
